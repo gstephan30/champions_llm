@@ -1,26 +1,44 @@
 # champions_llm
 
+
 Presentation: LLMs — Chancen und Grenzen
 
 Contents
-- `vortrag.qmd` — Quarto reveal.js presentation
-- `_site/` — generated HTML site (ignored by .gitignore)
+- `index.html` — presentation entry point (static HTML)
+- `pics/` — images used in the slides
+- `prompts/` — notes and prompt material
 
-How to render
+How to view
 
-Requirements:
-- Quarto (https://quarto.org) installed
-- Node.js / npm (optional)
+This repository contains a static presentation (HTML and assets), not a Quarto (`.qmd`) project. To view the slides locally you can either open `index.html` in your browser or serve the folder with a simple static server.
 
-Render locally:
+Quick options to view locally:
+
+- Open directly (works for local files):
 
 ```powershell
-cd C:\Users\Stephan\Documents\coding\champions_ki
-quarto render vortrag.qmd
-quarto preview  # opens a local server
+start .\index.html
 ```
 
-If you see a blank page when opening `_site/vortrag.html` directly in a browser, use `quarto preview` (serves over HTTP) or run a local static server.
+- Serve with Python (recommended if you encounter CORS or relative-path issues):
+
+```powershell
+# Python 3.x
+cd C:\Users\Stephan\Documents\coding\champions_ki
+python -m http.server 8000
+# then open http://localhost:8000 in your browser
+```
+
+- Serve with Node (http-server) if you prefer npm tools:
+
+```powershell
+npm install -g http-server
+http-server . -p 8000
+# then open http://localhost:8000
+```
+
+Notes
+- If you previously saw references to `vortrag.qmd` or Quarto in this README, those were incorrect — this repository does not include Quarto sources.
 
 License
 - Add a license if you want to open-source this repository.
