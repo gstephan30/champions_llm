@@ -1,6 +1,6 @@
 :root{
-  --brand:#003049; /* header/footer */
-  --brand-2:#1d3557; /* accents */
+  --brand:#003049; /* header */
+  --brand-2:#1d3557; /* footer / accents */
   --fg:#0b132b;
   --muted:#5c677d;
   --bg:#ededed; /* unified background */
@@ -17,33 +17,68 @@
   --body: 24px; /* base body size */
   --small: 18px;
 }
+
+/* Base */
 html,body{height:100%;}
 body{
   margin:0;background:var(--bg);color:var(--fg);font:var(--body)/1.35 var(--font);
   -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
 }
 
-/* Stage */
-.stage{position:fixed;inset:0;display:grid;grid-template-rows:64px 1fr 64px;background:var(--bg);}
-header,footer{display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--brand);color:#fff;}
+/* Stage layout (header / viewport / footer) */
+.stage{
+  position:fixed; inset:0;
+  display:grid; grid-template-rows:64px 1fr 64px;
+  background:var(--bg);
+}
+
+/* Header + footer base */
+header, footer{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 20px; color:#fff; position:relative; z-index:60;
+  background: var(--brand); /* header default */
+}
+
+/* Footer different from header */
+/*.stage > footer{
+/*  background: var(--brand-2) !important;
+/*  color:#fff !important;
+/*}
+
+/* Header content */
 header .title{font-weight:700;letter-spacing:.2px}
 header .subtitle{opacity:.85;font-size:var(--small)}
+
+/* Footer content */
 footer .left, footer .right{display:flex;gap:16px;align-items:center}
 footer .progress{height:6px;background:rgba(255,255,255,.25);border-radius:999px;overflow:hidden;width:260px}
 footer .bar{height:100%;background:#ffffff;opacity:.9;width:0%}
 
 /* Slide viewport */
-.viewport{display:grid;place-items:center;}
+.viewport{display:grid;place-items:center; --scale:1;}
+.viewport .slide{transform:scale(var(--scale));transform-origin:center}
+
+/* Slides */
 .slide{
-  box-sizing:border-box;width:var(--slide-w);height:var(--slide-h);
-  background:transparent;border-radius:0;box-shadow:none;
+  box-sizing:border-box; width:var(--slide-w); height:var(--slide-h);
+  background:transparent; border-radius:0; box-shadow:none;
   padding: calc(var(--pad) + 10px) calc(var(--pad) + 12px);
-  display:none;
+  display:none; position:relative; z-index:0;
 }
 .slide.current{display:block;}
 
 /* Typography */
-h1{font-size:var(--h1);margin:.2em 0 .3em 0;display:inline-block;background:var(--brand);color:#fff;padding:.2em .4em;border-radius:6px;font-weight:800}
+h1{
+  font-size:var(--h1); margin:.2em 0 .3em 0;
+  display:inline-block; background:var(--brand); color:#fff;
+  padding:.2em .4em; border-radius:6px; font-weight:800;
+}
+
+/* Hide per-slide h1 titles — header shows the current slide title instead.
+   Opt-in: add data-show-title="true" to a <section class="slide"> to display its h1. */
+.slide > h1 { display: none; }
+.slide[data-show-title="true"] > h1 { display: inline-block; }
+
 h2{font-size:var(--h2);margin:.2em 0 .2em 0;color:var(--brand-2)}
 h3{font-size:var(--h3);margin:.6em 0 .2em 0;color:var(--fg)}
 p{margin:.2em 0 .6em 0;}
@@ -70,10 +105,6 @@ tbody tr:nth-child(even){background:#fafbff}
 /* Controls help */
 .help{position:fixed;right:14px;bottom:80px;background:rgba(0,0,0,.75);color:#fff;padding:10px 12px;border-radius:8px;font-size:14px}
 
-/* Responsive scaling: fit slides to screen while keeping aspect */
-.viewport{--scale:1;}
-.viewport .slide{transform:scale(var(--scale));transform-origin:center}
-
 /* Smaller body on Einsichten */
 .slide[data-title="Einsichten"] ul,
 .slide[data-title="Einsichten"] li,
@@ -98,7 +129,9 @@ figure.ultron .credit{position:absolute;right:10px;bottom:8px;font-size:10px;col
 /* Layout via data-layout */
 .slide[data-layout="two"] .two-col,
 .slide[data-layout="two"] .content.two,
-.slide[data-layout="two"] > .two-col { display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start; }
+.slide[data-layout="two"] > .two-col {
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;
+}
 .slide[data-layout="one"] .content.one { max-width: 100%; }
 
 /* Appear: instant -> show all bullets by default (JS also enforces) */
@@ -152,3 +185,38 @@ figure.ultron .credit{position:absolute;right:10px;bottom:8px;font-size:10px;col
 
 figure.shap { margin:.5em 0; }
 figure.shap img { max-width:100%; height:auto; display:block; }
+
+/* ---------- Agenda (Inhalt) slide ---------- */
+.agenda-img img{
+  width: 85%;
+  height: auto;
+  border-radius: 18px;          /* curved edges */
+  display:block;
+  margin: 0 auto;
+  aspect-ratio: 3 / 4;          /* preserve the 3:4 vibe */
+  object-fit: cover;
+}
+.agenda-text{
+  text-align: right;            /* right-align text */
+}
+.agenda-text ol{
+  margin-left: 0;               /* remove default left indent */
+  padding-left: 0;
+  list-style-position: inside;  /* numbers align visually with right text */
+}
+
+/* === Hard unify header/footer color (wins everything) === */
+.stage > header,
+.stage > footer {
+  background-color: #003049 !important; /* exact same literal */
+  background: #003049 !important;       /* kill gradients */
+  background-image: none !important;
+  color: #ffffff !important;
+
+  opacity: 1 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  backdrop-filter: none !important;
+  isolation: isolate;                    /* avoid group blending */
+  box-shadow: none !important;
+}
