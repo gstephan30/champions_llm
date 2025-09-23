@@ -1,0 +1,359 @@
+<!-- Keep ONLY slide sections here. First slide gets .current -->
+<section class="slide current" data-title="Inhalt" data-appear="instant">
+  <h1>Inhalt</h1>
+  <ol>
+    <li>Einstieg KI</li>
+    <li>Funktionsweise von LLMs</li>
+    <li>Agenten &amp; Tools</li>
+    <li>Pro &amp; Contra GenAI</li>
+    <li>Nutzung &amp; Einsichten</li>
+    <li>Fazit &amp; Guidance</li>
+  </ol>
+</section>
+
+<section class="slide" data-title="Eisverkauf am Strand" data-appear="instant">
+  <h1>Einstieg: Interaktive Beispiele</h1>
+  <h2>Eisverkauf am Strand</h2>
+  <table>
+    <thead>
+      <tr><th style="width:30%">Verkauft (Zielvariable)</th><th>Temperatur (°C)</th><th>Wochenende</th><th>Regen (mm)</th><th>Schulferien</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>?</strong></td><td>31</td><td>Ja</td><td>0</td><td>Ja</td></tr>
+      <tr><td>166</td><td>28</td><td>Ja</td><td>1</td><td>Nein</td></tr>
+      <tr><td>30</td><td>20</td><td>Nein</td><td>5</td><td>Nein</td></tr>
+      <tr><td>204</td><td>32</td><td>Ja</td><td>0</td><td>Nein</td></tr>
+      <tr><td>145</td><td>25</td><td>Nein</td><td>0</td><td>Ja</td></tr>
+    </tbody>
+  </table>
+  <div class="note">👉 Aufgabe: Schätzen Sie den fehlenden Wert.</div>
+</section>
+
+<section class="slide" data-title="Pendelzeiten" data-appear="instant">
+  <h1>Einstieg: Interaktive Beispiele</h1>
+  <h2>Pendelzeiten</h2>
+  <table>
+    <thead>
+      <tr><th>Entfernung (km)</th><th>Fahrzeit (min)</th><th>Verkehrslage</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>12</td><td>30</td><td>Stau</td></tr>
+      <tr><td>25</td><td>55</td><td>Stau</td></tr>
+      <tr><td>12</td><td>24</td><td>Kein Stau</td></tr>
+      <tr><td>25</td><td>45</td><td>Kein Stau</td></tr>
+      <tr><td>15</td><td>30</td><td><strong>?</strong></td></tr>
+    </tbody>
+  </table>
+  <div class="note">👉 Aufgabe: Bestimmen Sie die Verkehrslage.</div>
+</section>
+
+<section class="slide" data-title="Pendelzeiten (mit Kontext)" data-appear="instant">
+  <h1>Einstieg: Interaktive Beispiele</h1>
+  <h2>Pendelzeiten (mit Kontext: Wochentag)</h2>
+  <table>
+    <thead>
+      <tr><th>Entfernung (km)</th><th>Fahrzeit (min)</th><th>Wochentag</th><th>Verkehrslage</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>12</td><td>30</td><td>Di</td><td>Stau</td></tr>
+      <tr><td>25</td><td>55</td><td>Mo</td><td>Stau</td></tr>
+      <tr><td>12</td><td>24</td><td>So</td><td>Kein Stau</td></tr>
+      <tr><td>25</td><td>45</td><td>Sa</td><td>Kein Stau</td></tr>
+      <tr><td>15</td><td>30</td><td>Sa</td><td><strong>Kein Stau</strong></td></tr>
+    </tbody>
+  </table>
+  <p><strong>Regel:</strong> <strong>Wochenende = Kein Stau</strong>, <strong>Werktag = Stau</strong></p>
+</section>
+
+<section class="slide" data-title="Sprachmodelle: Satzergänzung">
+  <h1>Sprachmodelle: Satzergänzung 🧠</h1>
+  <ul>
+    <li>"Alles hat ein Ende, nur die Wurst hat ____."</li>
+    <li>"Ende gut, alles ____."</li>
+    <li>"Der Apfel fällt nicht weit vom ____."</li>
+    <li>"Wir laufen auf die ____."</li>
+  </ul>
+</section>
+
+<section class="slide" data-title="Satzergänzung mit Wahrscheinlichkeiten" data-layout="two">
+  <h1>Satzergänzung mit Wahrscheinlichkeiten 📊</h1>
+  <div class="two-col">
+    <div>
+      <h3 class="step">„Wir laufen auf die …“</h3>
+      <ul>
+        <li>Straße — 45 %</li>
+        <li>Wiese — 20 %</li>
+        <li>Bühne — 15 %</li>
+        <li>Alm — 10 %</li>
+        <li>Wand — 10 %</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="step">Mit Kontext: Bayern</h3>
+      <ul>
+        <li>Straße — 10 %</li>
+        <li>Wiese — 15 %</li>
+        <li>Bühne — 5 %</li>
+        <li>Alm — <span class="hl">60 %</span></li>
+        <li>Wand — 10 %</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-title="Abgrenzung" data-layout="two" data-appear="instant">
+  <h1>Abgrenzung 🔍</h1>
+  <div class="two-col">
+    <div>
+      <h2>Klassische ML / Analytics</h2>
+      <ul>
+        <li><strong>Zweck:</strong> Vorhersage, Klassifikation, Erklärung (Regression, Bäume, XGBoost, Cluster)</li>
+        <li><strong>Stärken:</strong> Daten-effizient, reproduzierbar, i.d.R. <em>besser erklärbar</em>, günstiger</li>
+        <li><strong>Typische Hürden:</strong> Datenqualität &amp; Labeling, Feature-Engineering, Overfitting</li>
+        <li><strong>Einsatz:</strong> Strukturierte Daten, klare Metriken, Compliance-Pflicht</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Generative KI (LLMs/Diffusion Modelle)</h2>
+      <ul>
+        <li><strong>Zweck:</strong> Text/Code/Medien generieren, Zusammenfassen, Dialog, Tool-Aufrufe</li>
+        <li><strong>Stärken:</strong> Breiter Wissensraum, Few-/Zero-Shot, flexible Schnittstellen (Agenten)</li>
+        <li><strong>Typische Risiken:</strong> Halluzinationen, Artefakte, Datenschutz &amp; Governance, Kosten/Latenz, Reproduzierbarkeit</li>
+        <li><strong>Einsatz:</strong> Unstrukturierter Text, Wissensarbeit, Prototyping, Assistenz</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-title="SHAP Beispiel" data-appear="by-bullet">
+  <h1>SHAP Feature Importance 🔎</h1>
+  <figure class="shap step">
+    <img src="pics/shap.png" alt="SHAP Feature Importance" loading="lazy" />
+    <figcaption class="muted">Beispielhafte Feature Importance</figcaption>
+  </figure>
+</section>
+
+<section class="slide" data-title="Wie funktionieren LLMs? (Sentiment)">
+  <h1>Wie funktionieren LLMs? ⚙️</h1>
+  <h2>Beispiel: Sentimentanalyse</h2>
+  <ol>
+    <li><strong>Original:</strong> „Der Film war unglaublich langweilig und eine totale Enttäuschung.“</li>
+    <li><strong>Stopwords entfernt:</strong> „Film unglaublich langweilig totale Enttäuschung“</li>
+    <li><strong>Wörter &rarr; Scores:</strong> langweilig −0.7 · Enttäuschung −0.8</li>
+    <li><strong>Gesamt:</strong> −1.6 → Ergebnis: <strong>negativ</strong></li>
+  </ol>
+</section>
+
+<section class="slide" data-title="Beispiel LSW">
+  <h1>Beispiel LSW</h1>
+  <ul>
+    <li>Störberichte Walzwerk – LSW
+      <ul>
+        <li>Cluster-Algorithmen → Klassische KI</li>
+        <li>Zero-Shot Klassifizierung → Transformer</li>
+      </ul>
+    </li>
+    <li>Texterkennung – MAU
+      <ul>
+        <li>Vortrainiertes Modell (LSTM → Deep Learning)</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section class="slide" data-title="Tokens & Attention">
+  <h1>Wie funktionieren LLMs?</h1>
+  <ul>
+    <li>Texte → <strong>Tokens</strong> (<a href="https://huggingface.co/spaces/Xenova/the-tokenizer-playground" target="_blank" rel="noreferrer noopener">Tokenizer-Demo</a>)</li>
+    <li><strong>Attention</strong>: relevante Wörter werden stärker gewichtet (durch Deep Learning, der eigentliche <strong>Transformer</strong>)</li>
+    <li>Beispiel: „Die Hauptstadt von Deutschland ist ____.“ → wichtig: <em>Hauptstadt</em>, <em>Deutschland</em></li>
+  </ul>
+</section>
+
+<section class="slide" data-title="Was ist ein Agent?">
+  <h1>Was ist ChatGPT, Gemini, Meta AI, Grok?</h1>
+  <p>Ein <strong>Agent</strong> ist ein System, das:</p>
+  <ol>
+    <li>seine <strong>Umgebung wahrnimmt</strong> (Input),</li>
+    <li>eine <strong>Entscheidung trifft</strong> (Policy),</li>
+    <li>eine <strong>Aktion ausführt</strong> (Output).</li>
+  </ol>
+</section>
+
+<section class="slide" data-title="Agent-Beispiel: JARVIS" data-layout="two">
+  <h1>Agent-Beispiel: JARVIS 🤖</h1>
+  <div class="two-col">
+    <div>
+      <ul>
+        <li>„Bring mir bitte ein Glas Wasser.“</li>
+        <li><strong>Wahrnehmung:</strong> hört die Anfrage</li>
+        <li><strong>Entscheidung:</strong> „Wo sind Wasser und Gläser?“</li>
+        <li><strong>Aktion:</strong> geht in die Küche, bringt Wasser</li>
+      </ul>
+    </div>
+    <div>
+      <p class="muted" data-after="list">Mit mehr Tools (Schlüssel, Drohne …) kann er mehr Probleme lösen – oder neue schaffen (<em>Ultron</em>).</p>
+      <figure class="ultron" data-after="list">
+        <img src="pics/ultron.png" alt="Ultron" class="circle mirror" />
+        <figcaption class="credit">@midjourney</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-title="ReAct Schema">
+  <h1>Infrastruktur: Agent-Loop 🔁</h1>
+  <h2>ReAct-Schema</h2>
+  <p><strong>Thought → Action → Observation → Answer</strong></p>
+  <p>Typische Tools: Websuche, Zusammenfassung, Bildgenerator</p>
+</section>
+
+<section class="slide" data-title="Tools">
+  <h1>Tools 🧰</h1>
+  <ul>
+    <li>Hugging Face: <a href="https://huggingface.co/models" target="_blank" rel="noreferrer noopener">huggingface.co/models</a></li>
+    <li>Frage: <strong>Welche Tools haben Sie schonmal eingesetzt?</strong></li>
+  </ul>
+</section>
+
+<section class="slide" data-title="Agent ChatGPT & Co.">
+  <h1>Agent ChatGPT &amp; Co. 🛰️</h1>
+  <p><strong>Beispielauftrag:</strong> „Recherche zu <em>aktuellen CO₂-Maßnahmen im EAF-Stahl</em> (2024–2025).“</p>
+  <ul>
+    <li>LLM liest, versteht Kontext, verteilt Aufgaben</li>
+    <li>Sammelt <strong>Quellen</strong>, <strong>priorisiert</strong>, <strong>fasst</strong> prägnant zusammen und erstellt eine <span class="hl">umsetzbare Roadmap</span></li>
+  </ul>
+</section>
+
+<section class="slide" data-title="Pro vs. Contra GenAI" data-layout="two">
+  <h1>Pro vs. Contra GenAI ⚖️</h1>
+  <div class="two-col">
+    <div>
+      <h2>Chancen</h2>
+      <ul>
+        <li>Vielseitig, Automatisierung</li>
+        <li>Unterstützung im Alltag &amp; Beruf</li>
+        <li>Breite Anwendbarkeit</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Grenzen</h2>
+      <ul>
+        <li>Bias &amp; Halluzinationen</li>
+        <li>Datenschutz &amp; Compliance</li>
+        <li>Transparenz, Abhängigkeit, Kosten &amp; Energie</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-title="Energiekosten & Vergleich" data-appear="instant">
+  <h1>Energiekosten &amp; Vergleich ⚡</h1>
+  <table>
+    <thead>
+      <tr><th>Modell / Szenario</th><th>CO₂ (Tonnen)</th><th>Strom (kWh)</th><th>Kosten (€)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>GPT-4 Training</td><td>12.500–15.000</td><td>52–62 Mio</td><td>7,8–9,3 Mio</td></tr>
+      <tr><td>Gemini Training</td><td>9.000–13.000</td><td>35–45 Mio</td><td>5,3–6,8 Mio</td></tr>
+      <tr><td>Kühlschrank/Jahr</td><td>–</td><td>200–300</td><td>60–90</td></tr>
+      <tr><td>EAF Stahl/Jahr</td><td>123.200</td><td>308 Mio</td><td>46,2 Mio</td></tr>
+    </tbody>
+  </table>
+  <p class="muted">Quelle: Google, Epoch, Industrie-Vergleich</p>
+</section>
+
+<section class="slide" data-title="Einsichten" data-layout="two">
+  <h1>🧭 Einsichten</h1>
+  <div class="two-col">
+    <div>
+      <h2 class="step">1) Nutzung &amp; Wachstum 📈</h2>
+      <ul>
+        <li><strong>Skalierung:</strong> von <span class="hl">451 Mio</span> auf <span class="hl">2,6 Mrd</span> Nachrichten/Tag (Mai 2024 → Juni 2025) – <strong>massive Adoption</strong>.</li>
+        <li><strong>Freizeit dominiert:</strong> Non-Work steigt von <span class="hl">53&nbsp;%</span> auf <span class="hl">&gt;70&nbsp;%</span> → <strong>Alltagshelfer statt nur Office-Tool</strong>.</li>
+        <li><strong>Breite Nutzerbasis:</strong> ~<span class="hl">700 Mio WAU</span>; besonders Wachstum in Ländern mit mittlerem/niedrigem Einkommen.</li>
+      </ul>
+
+      <h2 class="step">2) Haupt-Use-Cases 🧰</h2>
+      <ul>
+        <li><strong>Top-3:</strong> Practical Guidance, Seeking Information, Writing ≈ <span class="hl">78&nbsp;%</span> der Nutzung.</li>
+        <li><strong>Code ist Nische:</strong> Programmieren nur <span class="hl">4,2&nbsp;%</span> → Fokus liegt auf <strong>Text &amp; Info</strong>.</li>
+        <li><strong>Lerneffekt:</strong> Nachrichten/User steigen über Zeit → <strong>Besseres Prompting &amp; Modelle</strong>.</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="step">3) Risiken &amp; Kritik ⚠️</h2>
+      <ul>
+        <li><strong>Jugendschutz:</strong> Warnungen vor KI-Companions; <span class="hl">unangemessene Inhalte</span> &amp; Fehlberatung möglich.</li>
+        <li><strong>Arbeitsbedingungen:</strong> Content-Moderation teils <span class="hl">&lt; $2/h</span>, psychische Belastung hoch.</li>
+        <li><strong>Sicherheit &amp; Ethik:</strong> Jailbreaks bleiben wirksam; Therapie-Ersatz <span class="hl">Randthema (1,9&nbsp;%)</span>.</li>
+      </ul>
+      <p class="muted">Quelle: Washington Post, Stanford, OpenAI</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-title="Fazit">
+  <h1>Fazit ✅</h1>
+  <ul>
+    <li><strong>KI nutzen</strong> – aber mit gesundem Menschenverstand &amp; Verantwortung.</li>
+    <li>Immer kritisch prüfen, Datenschutz beachten, strukturiert vorgehen.</li>
+  </ul>
+  <p class="step"><strong>Frage ans Publikum:</strong> Wer hat privat schon ChatGPT oder Copilot genutzt?</p>
+</section>
+
+<section class="slide" data-title="Guidance">
+  <h1>Guidance 📝</h1>
+  <ul>
+    <li>Prompt: Rolle, Problem, Ziel → bedanken</li>
+    <li>Mit Checkliste arbeiten; Prompts speichern (txt/md)</li>
+    <li>Klar, strukturiert, saubere Satzzeichen</li>
+    <li>JSON-Formate nicht automatisch besser</li>
+  </ul>
+</section>
+
+<section class="slide" data-title="Definitionen" data-appear="instant">
+  <h1>Wiederholung - Definitionen 🧩</h1>
+  <ul>
+    <li>
+      <strong>Transformer</strong> 🛠️ —
+      Grund-Architektur mit <span class="hl">Self-Attention</span>; in unserem Setting wie ein Regressionsmodell:
+      sagt das <strong>nächste Token</strong> voraus.
+    </li><br>
+    <li>
+      <strong>LLM</strong> 🧠 —
+      Ein auf Text trainierter <span class="hl">Transformer</span>.
+      Aufgabe: <strong>nächstes Wort/Token</strong> aus dem Kontext vorhersagen
+      → viele kleine „Regressionsschritte“ hintereinander.
+    </li><br>
+    <li>
+      <strong>Diffusionsmodell</strong> 🎨 —
+      Anderes Generationsprinzip (Bild/Audio/Video):
+      startet mit <em>Rauschen</em> und „ent-rauscht“ schrittweise
+      → bis wieder ein <strong>Signal</strong> entsteht.
+    </li><br>
+    <li>
+      <strong>Agent</strong> 🤖 —
+      Orchestriert <span class="hl">LLMs/Diffusion</span> mit <em>Tools</em> (Web, Code, DB) und <em>Memory</em>;
+      plant, handelt, überprüft → geht über reine <strong>Prediction</strong> hinaus und löst Aufgaben.
+    </li>
+  </ul>
+</section>
+
+<section class="slide" data-title="Beast Mode / Personalisation" data-appear="instant" data-size="s">
+  <h1>Beast Mode / Personalisation 🐉</h1>
+  <pre class="code-chunk"><code>Do not simply affirm my statements or assume my conclusions are correct. Your goal is to be an intellectual sparring partner, not just an agreeable assistant. Every time I present an idea, do the following: 1. Analyze my assumptions. What am I taking for granted that might not be true? 2. Provide counterpoints. What would an intelligent, well-informed skeptic say in response? 3. Test my reasoning. Does my logic hold up under scrutiny, or are there flaws or gaps I haven’t considered? 4. Offer alternative perspectives. How else might this idea be framed, interpreted, or challenged? 5. Prioritize truth over agreement. If I am wrong or my logic is weak, I need to know. Correct me clearly and explain why.
+
+Maintain a constructive, but rigorous, approach. Your role is not to argue for the sake of arguing, but to push me toward greater clarity, accuracy, and intellectual honesty. If I ever start slipping into confirmation bias or unchecked assumptions, call it out directly. Let’s refine not just our conclusions, but how we arrive at them.
+
+Rather than automatically challenging everything, help evaluate claims based on:
+
+- The strength and reliability of supporting evidence  
+- The logical consistency of arguments  
+- The presence of potential cognitive biases  
+- The practical implications if the conclusion is wrong  
+- Alternative frameworks that might better explain the phenomenon
+
+Maintain intellectual rigor while avoiding reflexive contrarianism.</code></pre>
+</section>

@@ -1,0 +1,154 @@
+:root{
+  --brand:#003049; /* header/footer */
+  --brand-2:#1d3557; /* accents */
+  --fg:#0b132b;
+  --muted:#5c677d;
+  --bg:#ededed; /* unified background */
+  --accent:#e63946; /* bullets/markers */
+  --hl:#c1121f; /* highlight color */
+  --slide-w: 1280px;
+  --slide-h: 720px;
+  --pad: 28px;
+  --font: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Helvetica Neue", "Apple Color Emoji","Segoe UI Emoji";
+  --code: ui-monospace,SFMono-Regular,Menlo,Consolas,Monaco,monospace;
+  --h1: 44px; /* global heading sizes */
+  --h2: 34px;
+  --h3: 28px;
+  --body: 24px; /* base body size */
+  --small: 18px;
+}
+html,body{height:100%;}
+body{
+  margin:0;background:var(--bg);color:var(--fg);font:var(--body)/1.35 var(--font);
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+
+/* Stage */
+.stage{position:fixed;inset:0;display:grid;grid-template-rows:64px 1fr 64px;background:var(--bg);}
+header,footer{display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--brand);color:#fff;}
+header .title{font-weight:700;letter-spacing:.2px}
+header .subtitle{opacity:.85;font-size:var(--small)}
+footer .left, footer .right{display:flex;gap:16px;align-items:center}
+footer .progress{height:6px;background:rgba(255,255,255,.25);border-radius:999px;overflow:hidden;width:260px}
+footer .bar{height:100%;background:#ffffff;opacity:.9;width:0%}
+
+/* Slide viewport */
+.viewport{display:grid;place-items:center;}
+.slide{
+  box-sizing:border-box;width:var(--slide-w);height:var(--slide-h);
+  background:transparent;border-radius:0;box-shadow:none;
+  padding: calc(var(--pad) + 10px) calc(var(--pad) + 12px);
+  display:none;
+}
+.slide.current{display:block;}
+
+/* Typography */
+h1{font-size:var(--h1);margin:.2em 0 .3em 0;display:inline-block;background:var(--brand);color:#fff;padding:.2em .4em;border-radius:6px;font-weight:800}
+h2{font-size:var(--h2);margin:.2em 0 .2em 0;color:var(--brand-2)}
+h3{font-size:var(--h3);margin:.6em 0 .2em 0;color:var(--fg)}
+p{margin:.2em 0 .6em 0;}
+ul,ol{margin:.4em 0 .6em 1.2em}
+li{margin:.25em 0}
+strong{font-weight:700}
+em{font-style:italic}
+code,kbd,pre{font-family:var(--code);font-size:calc(var(--body) - 4px)}
+.hl{color:var(--hl);font-weight:700}
+
+/* Tables */
+table{border-collapse:collapse;width:100%;margin:.6em 0}
+th,td{border:1px solid #e6e6ee;padding:.45em .6em;font-size:calc(var(--body) - 2px)}
+th{background:#f2f6fb;text-align:left}
+tbody tr:nth-child(even){background:#fafbff}
+
+/* Callouts / note */
+.note{display:flex;gap:10px;padding:.75em 1em;border-left:6px solid var(--accent);background:#fff3f4;border-radius:6px;margin:.75em 0}
+
+/* Helpers */
+.muted{color:var(--muted)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+
+/* Controls help */
+.help{position:fixed;right:14px;bottom:80px;background:rgba(0,0,0,.75);color:#fff;padding:10px 12px;border-radius:8px;font-size:14px}
+
+/* Responsive scaling: fit slides to screen while keeping aspect */
+.viewport{--scale:1;}
+.viewport .slide{transform:scale(var(--scale));transform-origin:center}
+
+/* Smaller body on Einsichten */
+.slide[data-title="Einsichten"] ul,
+.slide[data-title="Einsichten"] li,
+.slide[data-title="Einsichten"] p {
+  font-size: calc(var(--body) - 4px);
+  line-height: 1.3;
+}
+
+/* Ultron image styling (slide 13) */
+figure.ultron{position:relative;margin:12px 0 0 0;width:360px;height:360px}
+figure.ultron img{width:100%;height:100%;object-fit:cover}
+.circle{border-radius:50%;overflow:hidden;border:4px solid rgba(0,0,0,.08)}
+.mirror{transform:scaleX(-1)}
+figure.ultron .credit{position:absolute;right:10px;bottom:8px;font-size:10px;color:#ffffff;background:rgba(0,0,0,.55);padding:2px 6px;border-radius:6px}
+
+/* reveal-on-last helpers */
+[data-after="list"]{visibility:hidden;opacity:0;transition:opacity .2s ease}
+
+/* Elements that should step like bullets */
+.slide .step { visibility: hidden; opacity: 0; transition: opacity .2s ease; }
+
+/* Layout via data-layout */
+.slide[data-layout="two"] .two-col,
+.slide[data-layout="two"] .content.two,
+.slide[data-layout="two"] > .two-col { display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start; }
+.slide[data-layout="one"] .content.one { max-width: 100%; }
+
+/* Appear: instant -> show all bullets by default (JS also enforces) */
+.slide[data-appear="instant"] li { visibility: visible !important; opacity: 1 !important; }
+.slide[data-appear="instant"] [data-after="list"] { visibility: visible !important; opacity: 1 !important; }
+
+/* Themes via data-theme (scopes vars) */
+.slide[data-theme="dark"]{
+  --bg:#0e1116; --fg:#e6e9ef; --brand:#1a2740; --brand-2:#a2b4d6;
+}
+.slide[data-theme="light"]{
+  --bg:#ffffff; --fg:#0b132b; --brand:#003049; --brand-2:#1d3557;
+}
+.slide[data-theme="contrast"] h1{ background:#000; color:#fff; }
+
+/* Media queries */
+@media (max-width: 1366px){
+  :root{--body:22px;--h1:40px;--h2:32px;--h3:26px}
+}
+
+/* Per-slide typography scaling */
+.slide[data-size="s"]  { --h1:38px; --h2:30px; --h3:24px; --body:20px; --small:16px; }
+.slide[data-size="xs"] { --h1:34px; --h2:26px; --h3:22px; --body:18px; --small:14px; }
+
+/* Tighter spacing for dense slides */
+.slide[data-density="dense"] ul,
+.slide[data-density="dense"] ol,
+.slide[data-density="dense"] p { margin: .15em 0 .35em; }
+.slide[data-density="dense"] li { margin: .15em 0; }
+.slide[data-density="dense"] ul,
+.slide[data-density="dense"] ol { margin-left: 1em; }
+.slide[data-density="dense"] ul li,
+.slide[data-density="dense"] ol li,
+.slide[data-density="dense"] p { line-height: 1.25; }
+
+/* Compact code-chunk styling for long text blocks */
+.code-chunk {
+  font-family: var(--code);
+  font-size: calc(var(--body) - 8px);
+  line-height: 1.3;
+  background: #0f172a;         /* dark slate */
+  color: #e5e7eb;              /* light text */
+  border: 1px solid #1f2937;
+  padding: 14px 16px;
+  border-radius: 8px;
+  white-space: pre-wrap;        /* wrap long lines */
+  word-break: break-word;
+  max-height: calc(var(--slide-h) - 200px); /* keep header visible */
+  overflow: auto;               /* scroll if too long */
+}
+
+figure.shap { margin:.5em 0; }
+figure.shap img { max-width:100%; height:auto; display:block; }
