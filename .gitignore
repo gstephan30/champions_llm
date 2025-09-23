@@ -1,0 +1,33 @@
+# Quarto generated site
+_site/
+
+# Quarto cache and session files
+.quarto/
+.Rproj.user
+*.utf8.md
+*.cache
+
+# Visual Studio Code
+.vscode/
+.history/
+
+# Python envs
+venv/
+.env
+
+# System files
+Thumbs.db
+.DS_Store
+
+# Node modules if ever present
+node_modules/
+
+# Temporary files
+*.tmp
+*.log
+
+# Personal config
+.env.local
+
+# exclude local project file that caused parent conflict - keep if you want
+_quarto.yml

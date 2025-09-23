@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LLMs: Chancen und Grenzen — Stephan Gloeckner</title>
+  <style>
+    :root{
+      --brand:#003049; /* header/footer */
+      --brand-2:#1d3557; /* accents */
+      --fg:#0b132b;
+      --muted:#5c677d;
+      --bg:#ededed; /* unified background */
+      --accent:#e63946; /* bullets/markers */
+      --hl:#c1121f; /* highlight color */
+      --slide-w: 1280px;
+      --slide-h: 720px;
+      --pad: 28px;
+      --font: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Helvetica Neue", "Apple Color Emoji","Segoe UI Emoji";
+      --code: ui-monospace,SFMono-Regular,Menlo,Consolas,Monaco,monospace;
+      --h1: 44px; /* global heading sizes */
+      --h2: 34px;
+      --h3: 28px;
+      --body: 24px; /* base body size */
+      --small: 18px;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;background:var(--bg);color:var(--fg);font:var(--body)/1.35 var(--font);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    /* Stage */
+    .stage{position:fixed;inset:0;display:grid;grid-template-rows:64px 1fr 64px;background:var(--bg);}
+    header,footer{display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--brand);color:#fff;}
+    header .title{font-weight:700;letter-spacing:.2px}
+    header .subtitle{opacity:.85;font-size:var(--small)}
+    footer .left, footer .right{display:flex;gap:16px;align-items:center}
+    footer .progress{height:6px;background:rgba(255,255,255,.25);border-radius:999px;overflow:hidden;width:260px}
+    footer .bar{height:100%;background:#ffffff;opacity:.9;width:0%}
+
+    /* Slide viewport */
+    .viewport{display:grid;place-items:center;}
+    .slide{
+      box-sizing:border-box;width:var(--slide-w);height:var(--slide-h);
+      background:transparent; /* remove white card */
+      border-radius:0; /* no rounded corners */
+      box-shadow:none; /* no shadow */
+      padding:calc(var(--pad) + 10px) calc(var(--pad) + 20px);
+      display:none;
+    }
+    .slide.current{display:block;}
+
+    /* Typography */
+    h1{font-size:var(--h1);margin:.2em 0 .3em 0;display:inline-block;background:var(--brand);color:#fff;padding:.2em .4em;border-radius:6px;font-weight:800}
+    h2{font-size:var(--h2);margin:.2em 0 .2em 0;color:var(--brand-2)}
+    h3{font-size:var(--h3);margin:.6em 0 .2em 0;color:var(--fg)}
+    p{margin:.2em 0 .6em 0;}
+    ul,ol{margin:.4em 0 .6em 1.2em}
+    li{margin:.25em 0}
+    strong{font-weight:700}
+    em{font-style:italic}
+    code,kbd,pre{font-family:var(--code);font-size:calc(var(--body) - 4px)}
+    .hl{color:var(--hl);font-weight:700}
+
+    /* Tables */
+    table{border-collapse:collapse;width:100%;margin:.6em 0}
+    th,td{border:1px solid #e6e6ee;padding:.45em .6em;font-size:calc(var(--body) - 2px)}
+    th{background:#f2f6fb;text-align:left}
+    tbody tr:nth-child(even){background:#fafbff}
+
+    /* Callouts / note */
+    .note{display:flex;gap:10px;padding:.75em 1em;border-left:6px solid var(--accent);background:#fff3f4;border-radius:6px;margin:.75em 0}
+
+    /* Helpers */
+    .muted{color:var(--muted)}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+
+    /* Controls help */
+    .help{position:fixed;right:14px;bottom:80px;background:rgba(0,0,0,.75);color:#fff;padding:10px 12px;border-radius:8px;font-size:14px}
+
+    /* Responsive scaling: fit slides to screen while keeping aspect */
+    .viewport{--scale:1;}
+    .viewport .slide{transform:scale(var(--scale));transform-origin:center}
+    @media (max-width: 1366px){:root{--body:22px;--h1:40px;--h2:32px;--h3:26px}}
+      /* Slide 19 (Einsichten) smaller body text */
+    .slide[data-title="Einsichten"] ul,
+    .slide[data-title="Einsichten"] li,
+    .slide[data-title="Einsichten"] p {
+      font-size: calc(var(--body) - 4px);
+      line-height: 1.3;
+    }
+      /* Ultron image styling (slide 13) */
+    figure.ultron{position:relative;margin:12px 0 0 0;width:360px;height:360px}
+    figure.ultron img{width:100%;height:100%;object-fit:cover}
+    .circle{border-radius:50%;overflow:hidden;border:4px solid rgba(0,0,0,.08)}
+    .mirror{transform:scaleX(-1)}
+    figure.ultron .credit{position:absolute;right:10px;bottom:8px;font-size:10px;color:#ffffff;background:rgba(0,0,0,.55);padding:2px 6px;border-radius:6px}
+    
+    /* reveal-on-last helpers */
+    [data-after="list"]{visibility:hidden;opacity:0;transition:opacity .2s ease}
+  </style>
+</head>
+<body>
+  <div class="stage" role="application" aria-label="LLMs Präsentation">
+    <header>
+      <div class="left">
+        <span id="slide-title" class="title">Inhalt</span>
+      </div>
+      <div class="right"></div>
+    </header>
+
+    <main class="viewport">
+
+      <!-- 01 Inhalt -->
+      <section class="slide current" data-title="Inhalt">
+        <h1>Inhalt</h1>
+        <ol>
+          <li>Einstieg KI</li>
+          <li>Funktionsweise von LLMs</li>
+          <li>Agenten &amp; Tools</li>
+          <li>Pro &amp; Contra GenAI</li>
+          <li>Nutzung &amp; Einsichten</li>
+          <li>Fazit &amp; Guidance</li>
+        </ol>
+      </section>
+
+      <!-- 02 Interaktive Beispiele: Eisverkauf -->
+      <section class="slide" data-title="Eisverkauf am Strand">
+        <h1>Einstieg: Interaktive Beispiele</h1>
+        <h2>Eisverkauf am Strand</h2>
+        <table>
+          <thead>
+            <tr><th style="width:30%">Verkauft (Zielvariable)</th><th>Temperatur (°C)</th><th>Wochenende</th><th>Regen (mm)</th><th>Schulferien</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>?</strong></td><td>31</td><td>Ja</td><td>0</td><td>Ja</td></tr>
+            <tr><td>166</td><td>28</td><td>Ja</td><td>1</td><td>Nein</td></tr>
+            <tr><td>30</td><td>20</td><td>Nein</td><td>5</td><td>Nein</td></tr>
+            <tr><td>204</td><td>32</td><td>Ja</td><td>0</td><td>Nein</td></tr>
+            <tr><td>145</td><td>25</td><td>Nein</td><td>0</td><td>Ja</td></tr>
+          </tbody>
+        </table>
+        <div class="note">👉 Aufgabe: Schätzen Sie den fehlenden Wert.</div>
+      </section>
+
+      <!-- 03 Interaktive Beispiele: Pendelzeiten 1 -->
+      <section class="slide" data-title="Pendelzeiten">
+        <h1>Einstieg: Interaktive Beispiele</h1>
+        <h2>Pendelzeiten</h2>
+        <table>
+          <thead>
+            <tr><th>Entfernung (km)</th><th>Fahrzeit (min)</th><th>Verkehrslage</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>12</td><td>30</td><td>Stau</td></tr>
+            <tr><td>25</td><td>55</td><td>Stau</td></tr>
+            <tr><td>12</td><td>24</td><td>Kein Stau</td></tr>
+            <tr><td>25</td><td>45</td><td>Kein Stau</td></tr>
+            <tr><td>15</td><td>30</td><td><strong>?</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="note">👉 Aufgabe: Bestimmen Sie die Verkehrslage.</div>
+      </section>
+
+      <!-- 04 Interaktive Beispiele: Pendelzeiten 2 -->
+      <section class="slide" data-title="Pendelzeiten (mit Kontext)">
+        <h1>Einstieg: Interaktive Beispiele</h1>
+        <h2>Pendelzeiten (mit Kontext: Wochentag)</h2>
+        <table>
+          <thead>
+            <tr><th>Entfernung (km)</th><th>Fahrzeit (min)</th><th>Wochentag</th><th>Verkehrslage</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>12</td><td>30</td><td>Di</td><td>Stau</td></tr>
+            <tr><td>25</td><td>55</td><td>Mo</td><td>Stau</td></tr>
+            <tr><td>12</td><td>24</td><td>So</td><td>Kein Stau</td></tr>
+            <tr><td>25</td><td>45</td><td>Sa</td><td>Kein Stau</td></tr>
+            <tr><td>15</td><td>30</td><td>Sa</td><td><strong>Kein Stau</strong></td></tr>
+          </tbody>
+        </table>
+        <p><strong>Regel:</strong> <strong>Wochenende = Kein Stau</strong>, <strong>Werktag = Stau</strong></p>
+      </section>
+
+      <!-- 05 Sprachmodelle: Satzergänzung -->
+      <section class="slide" data-title="Sprachmodelle: Satzergänzung">
+        <h1>Sprachmodelle: Satzergänzung 🧠</h1>
+        <ul>
+          <li>"Alles hat ein Ende, nur die Wurst hat ____."</li>
+          <li>"Ende gut, alles ____."</li>
+          <li>"Der Apfel fällt nicht weit vom ____."</li>
+          <li>"Wir laufen auf die ____."</li>
+        </ul>
+      </section>
+
+      <!-- 06 Sprachmodelle: Wahrscheinlichkeiten -->
+      <section class="slide" data-title="Satzergänzung mit Wahrscheinlichkeiten">
+        <h1>Satzergänzung mit Wahrscheinlichkeiten 📊</h1>
+        <div class="two-col">
+          <div>
+            <h3>„Wir laufen auf die …“</h3>
+            <ul>
+              <li>Straße — 45 %</li>
+              <li>Wiese — 20 %</li>
+              <li>Bühne — 15 %</li>
+              <li>Alm — 10 %</li>
+              <li>Wand — 10 %</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Mit Kontext: Bayern</h3>
+            <ul>
+              <li>Straße — 10 %</li>
+              <li>Wiese — 15 %</li>
+              <li>Bühne — 5 %</li>
+              <li>Alm — 60 %</li>
+              <li>Wand — 10 %</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 Abgrenzung -->
+      <section class="slide" data-title="Abgrenzung">
+        <h1>Abgrenzung 🔍</h1>
+        <div class="two-col">
+          <div>
+            <h2>Klassische KI – Statistik &amp; ML</h2>
+            <ul>
+              <li>Regressionen, Entscheidungsbäume, Cluster, Kundensegmente, RCA …</li>
+              <li>Sentimentanalyse, Topic Modelling</li>
+              <li><strong>Modelle schnell trainierbar</strong>, <strong>transparent</strong>, – Hauptproblem: <span class="hl">Datenqualität</span></li>
+            </ul>
+          </div>
+          <div>
+            <h2>LLMs</h2>
+            <ul>
+              <li>Generalisten, riesige Trainingsmengen</li>
+              <li>Generieren: Text, Bilder, Video, Audio, Code …</li>
+              <li><strong>Mächtig</strong>, aber <strong>fehleranfällig</strong>,Hauptproblem: <span class="hl">Privacy&Governance</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 08 Beispiel Rissprüfung -->
+      <section class="slide" data-title="Beispiel Rissprüfung">
+        <h1>Beispiel Rissprüfung – Feature Importance 🔎</h1>
+        <p class="muted">[SHAP Bild hier einfügen]</p>
+      </section>
+
+      <!-- 09 Wie funktionieren LLMs (klassisch Sentiment) -->
+      <section class="slide" data-title="Wie funktionieren LLMs? (Sentiment)">
+        <h1>Wie funktionieren LLMs? ⚙️</h1>
+        <h2>Beispiel: Sentimentanalyse</h2>
+        <ol>
+          <li><strong>Original:</strong> „Der Film war unglaublich langweilig und eine totale Enttäuschung.“</li>
+          <li><strong>Stopwords entfernt:</strong> „Film unglaublich langweilig totale Enttäuschung“</li>
+          <li><strong>Wörter &rarr; Scores:</strong> langweilig −0.7 · Enttäuschung −0.8</li>
+          <li><strong>Gesamt:</strong> −1.6 → Ergebnis: <strong>negativ</strong></li>
+        </ol>
+      </section>
+
+      <!-- 10 Beispiel LSW -->
+      <section class="slide" data-title="Beispiel LSW">
+        <h1>Beispiel LSW</h1>
+        <ul>
+          <li>Störberichte Walzwerk – LSW
+            <ul>
+              <li>Cluster-Algorithmen → Klassische KI</li>
+              <li>Zero-Shot Klassifizierung → Transformer</li>
+            </ul>
+          </li>
+          <li>Texterkennung – MAU
+            <ul>
+              <li>Vortrainiertes Modell (LSTM → Deep Learning)</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+
+      <!-- 11 Tokens & Attention -->
+      <section class="slide" data-title="Tokens & Attention">
+        <h1>Wie funktionieren LLMs?</h1>
+        <ul>
+          <li>Texte → <strong>Tokens</strong> (<a href="https://huggingface.co/spaces/Xenova/the-tokenizer-playground" target="_blank" rel="noreferrer noopener">Tokenizer-Demo</a>)</li>
+          <li><strong>Attention</strong>: relevante Wörter werden stärker gewichtet</li>
+          <li>Beispiel: „Die Hauptstadt von Deutschland ist ____.“ → wichtig: <em>Hauptstadt</em>, <em>Deutschland</em></li>
+        </ul>
+      </section>
+
+      <!-- 12 Agent-Definition -->
+      <section class="slide" data-title="Was ist ein Agent?">
+        <h1>Was ist ChatGPT, Gemini, Meta AI, Grok?</h1>
+        <p>Ein <strong>Agent</strong> ist ein System, das:</p>
+        <ol>
+          <li>seine <strong>Umgebung wahrnimmt</strong> (Input),</li>
+          <li>eine <strong>Entscheidung trifft</strong> (Policy),</li>
+          <li>eine <strong>Aktion ausführt</strong> (Output).</li>
+        </ol>
+      </section>
+
+      <!-- 13 Agent-Beispiel JARVIS -->
+      <section class="slide" data-title="Agent-Beispiel: JARVIS">
+        <h1>Agent-Beispiel: JARVIS 🤖</h1>
+        <div class="two-col">
+          <div>
+            <ul>
+              <li>„Bring mir bitte ein Glas Wasser.“</li>
+              <li><strong>Wahrnehmung:</strong> hört die Anfrage</li>
+              <li><strong>Entscheidung:</strong> „Wo sind Wasser und Gläser?“</li>
+              <li><strong>Aktion:</strong> geht in die Küche, bringt Wasser</li>
+            </ul>
+          </div>
+          <div>
+            <p class="muted" data-after="list">Mit mehr Tools (Schlüssel, Drohne …) kann er mehr Probleme lösen – oder neue schaffen (<em>Ultron</em>).</p>
+            <figure class="ultron" data-after="list">
+              <img src="pics/ultron.png" alt="Ultron" class="circle mirror" />
+              <figcaption class="credit">@midjourney</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- 14 ReAct Schema -->
+      <section class="slide" data-title="ReAct Schema">
+        <h1>Infrastruktur: Agent-Loop 🔁</h1>
+        <h2>ReAct-Schema</h2>
+        <p><strong>Thought → Action → Observation → Answer</strong></p>
+        <p>Typische Tools: Websuche, Zusammenfassung, Bildgenerator</p>
+      </section>
+
+      <!-- 15 Tools -->
+      <section class="slide" data-title="Tools">
+        <h1>Tools 🧰</h1>
+        <ul>
+          <li>Hugging Face: <a href="https://huggingface.co/models" target="_blank" rel="noreferrer noopener">huggingface.co/models</a></li>
+          <li>Frage: <strong>Welche Tools haben Sie schonmal eingesetzt?</strong></li>
+        </ul>
+      </section>
+
+      <!-- 16 Agent ChatGPT & Co. -->
+      <section class="slide" data-title="Agent ChatGPT & Co.">
+        <h1>Agent ChatGPT &amp; Co. 🛰️</h1>
+        <p><strong>Beispielauftrag:</strong> „Recherche zu <em>aktuellen CO₂-Maßnahmen im EAF-Stahl</em> (2024–2025).“</p>
+        <ul>
+          <li>LLM liest, versteht Kontext, verteilt Aufgaben</li>
+          <li>Sammelt <strong>Quellen</strong>, <strong>priorisiert</strong>, <strong>fasst</strong> prägnant zusammen und erstellt eine <span class="hl">umsetzbare Roadmap</span></li>
+        </ul>
+      </section>
+
+      <!-- 17 Pro vs Contra -->
+      <section class="slide" data-title="Pro vs. Contra GenAI">
+        <h1>Pro vs. Contra GenAI ⚖️</h1>
+        <div class="two-col">
+          <div>
+            <h2>Chancen</h2>
+            <ul>
+              <li>Vielseitig, Automatisierung</li>
+              <li>Unterstützung im Alltag &amp; Beruf</li>
+              <li>Breite Anwendbarkeit</li>
+            </ul>
+          </div>
+          <div>
+            <h2>Grenzen</h2>
+            <ul>
+              <li>Bias &amp; Halluzinationen</li>
+              <li>Datenschutz &amp; Compliance</li>
+              <li>Transparenz, Abhängigkeit, Kosten &amp; Energie</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 18 Energiekosten -->
+      <section class="slide" data-title="Energiekosten & Vergleich">
+        <h1>Energiekosten &amp; Vergleich ⚡</h1>
+        <table>
+          <thead>
+            <tr><th>Modell / Szenario</th><th>CO₂ (Tonnen)</th><th>Strom (kWh)</th><th>Kosten (€)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>GPT-4 Training</td><td>12.500–15.000</td><td>52–62 Mio</td><td>7,8–9,3 Mio</td></tr>
+            <tr><td>Gemini Training</td><td>9.000–13.000</td><td>35–45 Mio</td><td>5,3–6,8 Mio</td></tr>
+            <tr><td>Kühlschrank/Jahr</td><td>–</td><td>200–300</td><td>60–90</td></tr>
+            <tr><td>EAF Stahl/Jahr</td><td>123.200</td><td>308 Mio</td><td>46,2 Mio</td></tr>
+          </tbody>
+        </table>
+        <p class="muted">Quelle: Google, Epoch, Industrie‑Vergleich</p>
+      </section>
+
+      <!-- 19 Einsichten -->
+      <section class="slide" data-title="Einsichten">
+        <h1>🧭 Einsichten</h1>
+        <div class="two-col">
+          <div>
+            <h2>1) Nutzung &amp; Wachstum 📈</h2>
+            <ul>
+              <li><strong>Skalierung:</strong> von <span class="hl">451 Mio</span> auf <span class="hl">2,6 Mrd</span> Nachrichten/Tag (Mai 2024 → Juni 2025) – <strong>massive Adoption</strong>.</li>
+              <li><strong>Freizeit dominiert:</strong> Non‑Work steigt von <span class="hl">53&nbsp;%</span> auf <span class="hl">&gt;70&nbsp;%</span> → <strong>Alltagshelfer statt nur Office‑Tool</strong>.</li>
+              <li><strong>Breite Nutzerbasis:</strong> ~<span class="hl">700 Mio WAU</span>; besonders Wachstum in Ländern mit mittlerem/niedrigem Einkommen.</li>
+            </ul>
+            <h2>2) Haupt‑Use‑Cases 🧰</h2>
+            <ul>
+              <li><strong>Top‑3:</strong> Practical Guidance, Seeking Information, Writing ≈ <span class="hl">78&nbsp;%</span> der Nutzung.</li>
+              <li><strong>Code ist Nische:</strong> Programmieren nur <span class="hl">4,2&nbsp;%</span> → Fokus liegt auf <strong>Text &amp; Info</strong>.</li>
+              <li><strong>Lerneffekt:</strong> Nachrichten/User steigen über Zeit → <strong>Besseres Prompting &amp; Modelle</strong>.</li>
+            </ul>
+          </div>
+          <div>
+            <h2>3) Risiken &amp; Kritik ⚠️</h2>
+            <ul>
+              <li><strong>Jugendschutz:</strong> Warnungen vor KI‑Companions; <span class="hl">unangemessene Inhalte</span> &amp; Fehlberatung möglich.</li>
+              <li><strong>Arbeitsbedingungen:</strong> Content‑Moderation teils <span class="hl">&lt; $2/h</span>, psychische Belastung hoch.</li>
+              <li><strong>Sicherheit &amp; Ethik:</strong> Jailbreaks bleiben wirksam; Therapie‑Ersatz <span class="hl">Randthema (1,9&nbsp;%)</span>.</li>
+            </ul>
+            <p class="muted">Quelle: Washington Post, Stanford, OpenAI</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 20 Fazit -->
+      <section class="slide" data-title="Fazit">
+        <h1>Fazit ✅</h1>
+        <ul>
+          <li><strong>KI nutzen</strong> – aber mit gesundem Menschenverstand &amp; Verantwortung.</li>
+          <li>Immer kritisch prüfen, Datenschutz beachten, strukturiert vorgehen.</li>
+        </ul>
+        <p><strong>Frage ans Publikum:</strong> Wer hat privat schon ChatGPT oder Copilot genutzt?</p>
+      </section>
+
+      <!-- 21 Guidance -->
+      <section class="slide" data-title="Guidance">
+        <h1>Guidance 📝</h1>
+        <ul>
+          <li>Prompt: Rolle, Problem, Ziel → bedanken</li>
+          <li>Mit Checkliste arbeiten; Prompts speichern (txt/md)</li>
+          <li>Klar, strukturiert, saubere Satzzeichen</li>
+          <li>JSON-Formate nicht automatisch besser</li>
+        </ul>
+      </section>
+
+    </main>
+
+    <footer>
+      <div class="left">
+        <div class="title">LLMs: Chancen und Grenzen</div> - 
+        <div class="subtitle">Stephan Gloeckner, PhD, MSc · <span id="today"></span></div>
+      </div>
+      <div class="right">
+        <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
+        <div><span id="idx">1</span>/<span id="total">1</span></div>
+      </div>
+    </footer>
+  </div>
+
+  
+
+  <script>
+    (function(){
+      // --- State ---
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const title = document.getElementById('slide-title');
+      const idxEl = document.getElementById('idx');
+      const totalEl = document.getElementById('total');
+      const bar = document.getElementById('bar');
+      totalEl.textContent = slides.length;
+      let i = 0;           // slide index
+      let step = 0;        // step index within slide
+      let steps = [];      // current slide steps
+      let afterList = [];  // elements revealed after list completes
+
+      // --- Footer date ---
+      const todayEl = document.getElementById('today');
+      if (todayEl) {
+        const d = new Date();
+        todayEl.textContent = d.toLocaleDateString('de-DE', { year:'numeric', month:'2-digit', day:'2-digit' });
+      }
+
+      // --- Helpers ---
+      function collectSteps(slide){
+        // revealable elements: list items; collect also after-list elements
+        const els = Array.from(slide.querySelectorAll('ul > li, ol > li'));
+        afterList = Array.from(slide.querySelectorAll('[data-after="list"]'));
+        return els;
+      }
+      function applyStepVisibility(){
+        // hide all list items, then show up to `step`
+        steps.forEach((el, idx)=>{
+          if (idx < step) {
+            el.style.visibility = 'visible';
+            el.style.opacity = 1;
+          } else {
+            el.style.visibility = 'hidden';
+            el.style.opacity = 0;
+          }
+        });
+        // elements that appear only after all list items are revealed
+        const showAfter = step >= steps.length;
+        afterList.forEach(el=>{
+          el.style.visibility = showAfter ? 'visible' : 'hidden';
+          el.style.opacity = showAfter ? 1 : 0;
+        });
+      }
+      function fit(){
+        const vp=document.querySelector('.viewport');
+        const W=vp.clientWidth, H=vp.clientHeight;
+        const sW=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--slide-w'));
+        const sH=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--slide-h'));
+        const scale=Math.min(W/sW, H/sH);
+        vp.style.setProperty('--scale', scale > 0 ? scale : 1);
+      }
+
+      // --- Navigation core ---
+      function show(n){
+        i = Math.max(0, Math.min(slides.length-1, n));
+        slides.forEach((s, k)=>s.classList.toggle('current', k===i));
+        const cur = slides[i];
+        const t = cur.dataset.title || `Slide ${i+1}`;
+        if (title) title.textContent = t;
+        if (idxEl) idxEl.textContent = i+1;
+        if (bar) bar.style.width = (((i+1)/slides.length)*100).toFixed(1)+'%';
+        // steps handling
+        steps = collectSteps(cur);
+        step = 0;
+        applyStepVisibility();
+        fit();
+        if (history && history.replaceState) history.replaceState(null, '', `#${i+1}`);
+      }
+      function next(){
+        if (step < steps.length) { // reveal next bullet
+          step++;
+          applyStepVisibility();
+        } else {
+          show(i+1);
+        }
+      }
+      function prev(){
+        if (step > 0) { // hide last revealed bullet
+          step--;
+          applyStepVisibility();
+        } else {
+          show(i-1);
+        }
+      }
+
+      // --- Event bindings ---
+      window.addEventListener('keydown', (e)=>{
+        const k=e.key.toLowerCase();
+        if(['arrowright','pageup',' '].includes(k)) { e.preventDefault(); next(); }
+        if(['arrowleft','pagedown'].includes(k))   { e.preventDefault(); prev(); }
+        if(k==='f'){ const el=document.documentElement; if(!document.fullscreenElement){ el.requestFullscreen?.(); } else { document.exitFullscreen?.(); } }
+      });
+      window.addEventListener('click', (e)=>{
+        const w = window.innerWidth;
+        if(e.clientX > w/2) next(); else prev();
+      });
+      window.addEventListener('resize', fit);
+
+      // --- Init (from hash) ---
+      const hashIndex = parseInt(location.hash.replace('#',''),10);
+      if(!isNaN(hashIndex) && hashIndex>=1 && hashIndex<=slides.length){ i = hashIndex-1; }
+      show(i);
+    })();
+  </script>
+</body>
+</html>
