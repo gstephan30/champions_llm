@@ -1,44 +1,67 @@
 # champions_llm
 
+Static HTML presentation: "LLMs — Chancen und Grenzen" by Stephan Gloeckner.
 
-Presentation: LLMs — Chancen und Grenzen
+## What’s here
 
-Contents
-- `index.html` — presentation entry point (static HTML)
+- `index.html` — presentation entry point (static HTML + JS)
+- `slides.html` — slide content (sections injected into the viewport)
+- `app.js`, `app.css` — presentation logic and styling
 - `pics/` — images used in the slides
 - `prompts/` — notes and prompt material
 
-How to view
+## Quick preview (Windows / PowerShell)
 
-This repository contains a static presentation (HTML and assets), not a Quarto (`.qmd`) project. To view the slides locally you can either open `index.html` in your browser or serve the folder with a simple static server.
-
-Quick options to view locally:
-
-- Open directly (works for local files):
+1) Open directly (quick, may fail if your browser blocks file:// fetches):
 
 ```powershell
 start .\index.html
 ```
 
-- Serve with Python (recommended if you encounter CORS or relative-path issues):
+2) Recommended: serve a simple local HTTP server (avoids fetch/CORS problems):
 
 ```powershell
-# Python 3.x
+# from the project folder
 cd C:\Users\Stephan\Documents\coding\champions_ki
+# Python 3 (built-in)
 python -m http.server 8000
 # then open http://localhost:8000 in your browser
 ```
 
-- Serve with Node (http-server) if you prefer npm tools:
+3) Alternative (Node):
 
 ```powershell
+# install once if you need it
 npm install -g http-server
 http-server . -p 8000
 # then open http://localhost:8000
 ```
 
-Notes
-- If you previously saw references to `vortrag.qmd` or Quarto in this README, those were incorrect — this repository does not include Quarto sources.
+## How to navigate the slides
 
-License
-- Add a license if you want to open-source this repository.
+- Right / Left arrow or Space to advance / go back
+- Click right/left half of the screen to navigate
+- Press `f` to toggle fullscreen
+- The URL hash reflects the slide number (e.g. `#3`) so you can link to a specific slide
+
+## Editing notes
+
+- Slide content is in `slides.html`. Each slide is a `<section class="slide">`.
+- Per-slide behavior is controlled with data-attributes (examples in `slides.html`):
+  - `data-appear="instant"` (show everything), `data-appear="by-bullet"` (default stepping),
+  - `data-title`, `data-layout`, `data-theme`, etc.
+- Images live in `pics/`; prompts and speaker notes are in `prompts/`.
+
+## Troubleshooting
+
+- If slides show a loading error, confirm `slides.html` is next to `index.html` and you're serving files over HTTP (see recommended Python server).
+- If images don't display, check `pics/` and relative paths.
+- Use Ctrl+F5 (or equivalent) to bypass caching while developing.
+
+## License
+
+This repository currently has no license. Add a license file (e.g. `LICENSE` with MIT) if you plan to publish or share.
+
+## Problems or improvements
+
+- Want keyboard shortcuts, print/export, or PDF export? I can add a small export script or a printable stylesheet.
