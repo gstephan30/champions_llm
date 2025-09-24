@@ -1,5 +1,4 @@
 <!-- Keep ONLY slide sections here. First slide gets .current -->
-
 <section class="slide current" data-title="Inhalt" data-appear="instant" data-layout="two">
   <div class="two-col">
     <!-- Left: Image -->
@@ -9,20 +8,22 @@
 
     <!-- Right: Content -->
     <div class="agenda-text">
-      <ol style="font-size: calc(var(--h1) - 6px); line-height: 1.15; font-weight: 800;">
-        <li>Transformers</li>
-        <br/>
-        <li>LLMs</li>
-        <br/>
-        <li>Agenten</li>
-        <br/>
-        <li>Übersicht &amp; Basics</li>
+      <h1>Inhalt</h1>
+      <ol>
+        <li>Einstieg KI</li>
+        <li>Funktionsweise von LLMs</li>
+        <li>Agenten &amp; Tools</li>
+        <li>Pro &amp; Contra GenAI</li>
+        <li>Nutzung &amp; Einsichten</li>
+        <li>Fazit &amp; Guidance</li>
       </ol>
     </div>
   </div>
 </section>
 
 <section class="slide" data-title="Eisverkauf am Strand" data-appear="instant">
+  <h1>Einstieg: Interaktive Beispiele</h1>
+  <h2>Eisverkauf am Strand</h2>
   <table>
     <thead>
       <tr><th style="width:30%">Verkauft (Zielvariable)</th><th>Temperatur (°C)</th><th>Wochenende</th><th>Regen (mm)</th><th>Schulferien</th></tr>
@@ -35,10 +36,12 @@
       <tr><td>145</td><td>25</td><td>Nein</td><td>0</td><td>Ja</td></tr>
     </tbody>
   </table>
-  <div class="note step">👉 Aufgabe: Schätzen Sie den fehlenden Wert.</div>
+  <div class="note">👉 Aufgabe: Schätzen Sie den fehlenden Wert.</div>
 </section>
 
 <section class="slide" data-title="Pendelzeiten" data-appear="instant">
+  <h1>Einstieg: Interaktive Beispiele</h1>
+  <h2>Pendelzeiten</h2>
   <table>
     <thead>
       <tr><th>Entfernung (km)</th><th>Fahrzeit (min)</th><th>Verkehrslage</th></tr>
@@ -51,7 +54,7 @@
       <tr><td>15</td><td>30</td><td><strong>?</strong></td></tr>
     </tbody>
   </table>
-  <div class="note step">👉 Aufgabe: Bestimmen Sie die Verkehrslage.</div>
+  <div class="note">👉 Aufgabe: Bestimmen Sie die Verkehrslage.</div>
 </section>
 
 <section class="slide" data-title="Pendelzeiten (mit Kontext)" data-appear="instant">
@@ -69,21 +72,17 @@
       <tr><td>15</td><td>30</td><td>Sa</td><td><strong>Kein Stau</strong></td></tr>
     </tbody>
   </table>
-  <p class="step"><strong>Regel:</strong> <strong>Wochenende = Kein Stau</strong>, <strong>Werktag = Stau</strong></p>
+  <p><strong>Regel:</strong> <strong>Wochenende = Kein Stau</strong>, <strong>Werktag = Stau</strong></p>
 </section>
 
 <section class="slide" data-title="Sprachmodelle: Satzergänzung">
   <h1>Sprachmodelle: Satzergänzung 🧠</h1>
   <ul>
     <li>"Alles hat ein Ende, nur die Wurst hat ____."</li>
-    <br/>
     <li>"Ende gut, alles ____."</li>
-    <br/>
     <li>"Der Apfel fällt nicht weit vom ____."</li>
-    <br/>
     <li>"Wir laufen auf die ____."</li>
   </ul>
-  <p class="muted step">LLMs geben keine „Wahrheit“ aus, sondern Wahrscheinlichkeiten für die nächsten Tokens.</p>
 </section>
 
 <section class="slide" data-title="Satzergänzung mit Wahrscheinlichkeiten" data-layout="two">
@@ -149,30 +148,23 @@
   <h2>Beispiel: Sentimentanalyse</h2>
   <ol>
     <li><strong>Original:</strong> „Der Film war unglaublich langweilig und eine totale Enttäuschung.“</li>
-    <br/>
     <li><strong>Stopwords entfernt:</strong> „Film unglaublich langweilig totale Enttäuschung“</li>
-    <br/>
     <li><strong>Wörter &rarr; Scores:</strong> langweilig −0.7 · Enttäuschung −0.8</li>
-    <br/>
     <li><strong>Gesamt:</strong> −1.6 → Ergebnis: <strong>negativ</strong></li>
   </ol>
 </section>
 
-<section class="slide" data-title="Beispiel LSW / MAU">
+<section class="slide" data-title="Beispiel LSW">
   <h1>Beispiel LSW</h1>
   <ul>
-    <li><strong>Störberichte Walzwerk – LSW</strong>
+    <li>Störberichte Walzwerk – LSW
       <ul>
-        <br/>
         <li>Cluster-Algorithmen → Klassische KI</li>
-        <br/>
         <li>Zero-Shot Klassifizierung → Transformer</li>
       </ul>
     </li>
-    <br/>
-    <li><strong>Texterkennung – MAU</strong>
+    <li>Texterkennung – MAU
       <ul>
-        <br/>
         <li>Vortrainiertes Modell (LSTM → Deep Learning)</li>
       </ul>
     </li>
@@ -183,29 +175,20 @@
   <h1>Wie funktionieren LLMs?</h1>
   <ul>
     <li>Texte → <strong>Tokens</strong> (<a href="https://huggingface.co/spaces/Xenova/the-tokenizer-playground" target="_blank" rel="noreferrer noopener">Tokenizer-Demo</a>)</li>
-    <br/>
     <li><strong>Attention</strong>: relevante Wörter werden stärker gewichtet (durch Deep Learning, der eigentliche <strong>Transformer</strong>)</li>
-    <br/>
     <li>Beispiel: „Die Hauptstadt von Deutschland ist ____.“ → wichtig: <em>Hauptstadt</em>, <em>Deutschland</em></li>
   </ul>
 </section>
 
 <section class="slide" data-title="Was ist ein Agent?">
   <h1>Was ist ChatGPT, Gemini, Meta AI, Grok?</h1>
-
-  <p><strong>Ziel:</strong> Definiere die übergeordnete Aufgabe, die gelöst werden soll.</p>
-
-  <p>Ein <strong>Agent</strong> ist ein System, das iterativ arbeitet:</p>
+  <p>Ein <strong>Agent</strong> ist ein System, das:</p>
   <ol>
-    <li class="step"><strong>Wahrnehmen:</strong> Sammle alle verfügbaren Informationen über die Umgebung.</li>
-    <li class="step"><strong>Denken:</strong> Plane den nächsten einzelnen, logischen Handlungsschritt.</li>
-    <li class="step"><strong>Handeln:</strong> Führe diesen einen Schritt mit einem passenden Werkzeug aus.</li>
-    <li class="step"><strong>Beobachten:</strong> Nimm das Ergebnis der Handlung als neue Information auf.</li>
-    <li class="step"><strong>Überprüfen:</strong> Gleiche das Ergebnis mit dem Ziel ab und wiederhole ab Schritt&nbsp;2, falls nötig.</li>
-    <li class="step"><strong>Antworten:</strong> Formuliere die finale Antwort, sobald das Ziel erreicht ist.</li>
+    <li>seine <strong>Umgebung wahrnimmt</strong> (Input),</li>
+    <li>eine <strong>Entscheidung trifft</strong> (Policy),</li>
+    <li>eine <strong>Aktion ausführt</strong> (Output).</li>
   </ol>
 </section>
-
 
 <section class="slide" data-title="Agent-Beispiel: JARVIS" data-layout="two">
   <h1>Agent-Beispiel: JARVIS 🤖</h1>
@@ -217,9 +200,9 @@
         <li><strong>Entscheidung:</strong> „Wo sind Wasser und Gläser?“</li>
         <li><strong>Aktion:</strong> geht in die Küche, bringt Wasser</li>
       </ul>
-      <p class="muted step" data-after="list">Mit mehr Tools (Schlüssel, Drohne …) kann er mehr Probleme lösen – oder neue schaffen (<em>Ultron</em>).</p>
     </div>
     <div>
+      <p class="muted" data-after="list">Mit mehr Tools (Schlüssel, Drohne …) kann er mehr Probleme lösen – oder neue schaffen (<em>Ultron</em>).</p>
       <figure class="ultron" data-after="list">
         <img src="pics/ultron.png" alt="Ultron" class="circle mirror" />
         <figcaption class="credit">@midjourney</figcaption>
@@ -228,38 +211,27 @@
   </div>
 </section>
 
-<!-- NEW: Full-bleed ReAct GIF with source only -->
-<section class="slide" data-title="ReAct – Animation" data-appear="instant" data-size="full">
-  <h1>ReAct – Animation</h1>
-  <figure style="position:relative; width:100%; height:calc(var(--slide-h) - 80px); margin:0;">
-    <img src="pics/react_loop.gif" alt="ReAct-Loop Animation" style="width:100%; height:100%; object-fit:contain; display:block;" />
-    <figcaption style="position:absolute; right:12px; bottom:8px; font-size:12px; background:rgba(0,0,0,.55); color:#fff; padding:2px 6px; border-radius:6px;">
-      Quelle: <a href="https://blog.dailydoseofds.com/p/implement-react-agentic-pattern-from" target="_blank" rel="noreferrer noopener" style="color:#fff; text-decoration:underline;">DailyDose of DS</a>
-    </figcaption>
-  </figure>
-</section>
-
 <section class="slide" data-title="ReAct Schema">
-  <figure style="margin-top:1rem; text-align:center;">
-    <img
-      src="pics/react_loop_correct.png"
-      alt="ReAct-Loop Diagramm (bearbeitet)"
-      loading="lazy"
-      style="max-width:70%; width:70%; height:auto; display:inline-block;"
-    />
-    <figcaption class="muted">
-      Bearbeitet nach:
-      <a href="https://blog.dailydoseofds.com/p/implement-react-agentic-pattern-from" target="_blank" rel="noreferrer noopener">DailyDose of DS</a>
-    </figcaption>
-  </figure>
+  <h1>Infrastruktur: Agent-Loop 🔁</h1>
+  <h2>ReAct-Schema</h2>
+  <p><strong>Thought → Action → Observation → Answer</strong></p>
+  <p>Typische Tools: Websuche, Zusammenfassung, Bildgenerator</p>
 </section>
 
 <section class="slide" data-title="Tools">
   <h1>Tools 🧰</h1>
   <ul>
     <li>Hugging Face: <a href="https://huggingface.co/models" target="_blank" rel="noreferrer noopener">huggingface.co/models</a></li>
-    <br/>
     <li>Frage: <strong>Welche Tools haben Sie schonmal eingesetzt?</strong></li>
+  </ul>
+</section>
+
+<section class="slide" data-title="Agent ChatGPT & Co.">
+  <h1>Agent ChatGPT &amp; Co. 🛰️</h1>
+  <p><strong>Beispielauftrag:</strong> „Recherche zu <em>aktuellen CO₂-Maßnahmen im EAF-Stahl</em> (2024–2025).“</p>
+  <ul>
+    <li>LLM liest, versteht Kontext, verteilt Aufgaben</li>
+    <li>Sammelt <strong>Quellen</strong>, <strong>priorisiert</strong>, <strong>fasst</strong> prägnant zusammen und erstellt eine <span class="hl">umsetzbare Roadmap</span></li>
   </ul>
 </section>
 
@@ -327,9 +299,28 @@
         <li><strong>Arbeitsbedingungen:</strong> Content-Moderation teils <span class="hl">&lt; $2/h</span>, psychische Belastung hoch.</li>
         <li><strong>Sicherheit &amp; Ethik:</strong> Jailbreaks bleiben wirksam; Therapie-Ersatz <span class="hl">Randthema (1,9&nbsp;%)</span>.</li>
       </ul>
-      <p class="step">Quelle: Washington Post, Stanford, OpenAI</p>
+      <p class="muted">Quelle: Washington Post, Stanford, OpenAI</p>
     </div>
   </div>
+</section>
+
+<section class="slide" data-title="Fazit">
+  <h1>Fazit ✅</h1>
+  <ul>
+    <li><strong>KI nutzen</strong> – aber mit gesundem Menschenverstand &amp; Verantwortung.</li>
+    <li>Immer kritisch prüfen, Datenschutz beachten, strukturiert vorgehen.</li>
+  </ul>
+  <p class="step"><strong>Frage ans Publikum:</strong> Wer hat privat schon ChatGPT oder Copilot genutzt?</p>
+</section>
+
+<section class="slide" data-title="Guidance">
+  <h1>Guidance 📝</h1>
+  <ul>
+    <li>Prompt: Rolle, Problem, Ziel → bedanken</li>
+    <li>Mit Checkliste arbeiten; Prompts speichern (txt/md)</li>
+    <li>Klar, strukturiert, saubere Satzzeichen</li>
+    <li>JSON-Formate nicht automatisch besser</li>
+  </ul>
 </section>
 
 <section class="slide" data-title="Definitionen" data-appear="instant">
@@ -359,49 +350,6 @@
     </li>
   </ul>
 </section>
-
-<section class="slide" data-title="Prompt-Beispiel: Lieferantenvergleich (Web & Rechnen)">
-  <h1>Prompt-Beispiel: Lieferantenvergleich (Web & Rechnen)</h1>
-  <pre class="code-chunk"><code>Rolle: Du bist Einkäufer:in/Controller:in mit 10 Jahren Erfahrung im Bereich Beschaffung. 
-
-Ziel:
-- Finde 3–5 aktuelle Marktpreise (letzte 6–12 Monate) für [Produkt/Material X] in [Region/DE/EU].
-- Vergleiche sie mit unseren letzten 5 Einkaufspositionen (unten aufegführt).
-- Liefere einen Text-Vorschlag zur möglichen Neuverhandlung nach Lieferant (Zielpreis, pot. Ersparnis).
-
-Vorgaben:
-- Quellen: seriöse Händler/Hersteller/Branchenportale in Europa und Nordamerika; gib pro Preis 1 Quelle (URL, Datum).
-- Normalisiere auf gemeinsame Mengeneinheit (z. B. €/kg). Rechne sauber vor.
-- Falls Preise netto/brutto gemischt sind, kennzeichne und harmonisiere (DE: 19 % MwSt).
-- Unsicherheiten & Ausreißer markieren.
-
-Unsere Einkaufsdaten:
-lieferant;produkt;menge;einheit;preis_netto;datum
-ACME GmbH;Werkstoff X;2.500;kg;5.45;2025-04-12
-Beta AG;Werkstoff X;1.800;kg;5.72;2025-02-28
-Delta KG;Werkstoff X;3.100;kg;5.60;2024-12-19
-...
-
-Aufgaben:
-1) Websuche: Sammle 3–5 aktuelle Preisangebote; normalisiere €/kg.
-2) Statistik: Mittelwert, Median, Spannweite; Vergleich zu unserem Durchschnittspreis.
-3) Zielpreis: setze konservativ auf (Median - 2 %), begründe kurz.
-4) Verhandlungsspielraum: potenzielle Ersparnis je Lieferant/Monat auf Basis unseres Volumens (Ø der letzten 3 Monate).
-
-Ausgabe:
-- Kurze Zusammenfassung (max. 5 Bulletpoints).
-- Tabelle (Markdown):
-  | Quelle | Datum | Preis €/kg | Einheit | Kommentar |
-- Text Datei „neuverhandlung_vorschlag.txt“ (nur Datenteil, Semikolon):
-  lieferant;aktueller_preis;zielpreis;empfohlene_spanne;pot_ersparnis_monat_eur;hinweis
-- Darunter: Annahmen & Risiken (3 Bulletpoints).
-- Falls Infos fehlen: präzise Rückfragen am Ende.
-
-Vielen Dank für deine Mühe.</code></pre>
-</section>
-
-
-
 
 <section class="slide" data-title="Beast Mode / Personalisation" data-appear="instant" data-size="s">
   <h1>Beast Mode / Personalisation 🐉</h1>
