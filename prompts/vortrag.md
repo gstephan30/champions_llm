@@ -1,11 +1,3 @@
----
-title: "LLMs: Chancen und Grenzen"
-author: "Stephan Gloeckner, PhD, MSc"
-date: 
-format: revealjs
-execute: false
----
-
 ## Inhalt
 1. Einstieg KI
 2. Funktionsweise von LLMs
